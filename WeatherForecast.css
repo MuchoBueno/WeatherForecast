@@ -1,0 +1,28 @@
+html {
+    display: table;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(#0099F0, #FFDDBB);}
+
+body {
+    display: table-cell;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.upper-div {
+    display: flex;
+    margin-top: -300px;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* .result {
+    padding-top: 300px;
+    display: flex;
+    flex-direction: row;
+} */
+
+.weather-icon {
+    width: 10%;
+}
