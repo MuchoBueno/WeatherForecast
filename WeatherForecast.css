@@ -4,25 +4,35 @@ html {
     height: 100vh;
     background: linear-gradient(#0099F0, #FFDDBB);}
 
+.night-mode {
+    background: linear-gradient(#550066, #FFDDBB);
+}
+
 body {
     display: table-cell;
-    margin: 0;
     vertical-align: middle;
 }
 
 .upper-div {
-    display: flex;
-    margin-top: -300px;
+    margin-top: -28vh;
     flex-direction: column;
     text-align: center;
 }
 
-/* .result {
-    padding-top: 300px;
-    display: flex;
-    flex-direction: row;
+/* .resultweather {
+    align-items: center;
+    text-align: center;
 } */
 
+.result {
+    display: inline-grid;
+    margin: 30px;
+}
+
 .weather-icon {
-    width: 10%;
+    width: 6rem;
+}
+
+.form-control {
+    margin-bottom: 20px;
 }

@@ -1,15 +1,17 @@
 // Je prépare les variables qui seront utilisées dans les fonctions
-
+let upperdiv = document.getElementById("upper-div")
 let resultweather = document.getElementById("resultweather");
 let result = document.getElementById("result");
+let selector = document.querySelector('.dropdown');
+
 let weekday = new Array(7);
+weekday[0]="Sunday";
 weekday[1]="Monday";
 weekday[2]="Tuesday";
 weekday[3]="Wednesday";
 weekday[4]="Thursday";
 weekday[5]="Friday";
 weekday[6]="Saturday";
-weekday[7]="Sunday";
 
 // Je prépare les fonctions qui seront appelées
 
@@ -54,6 +56,14 @@ function getWeatherIcon(id) {
 	}
 }
 
+function checkNightMode() {
+	if (myWeatherResult.current.weather[0].icon.includes("n")) {
+		console.log("night icon detected")
+		upperdiv.insertAdjacentHTML('afterstart', `<div class="night-mode" id="night-mode"`)
+		upperdiv.insertAdjacentHTML('afterstart', `</div>`)
+	}
+}
+
 function deleteChild() {
 	while (resultweather.firstChild) {
 		resultweather.removeChild(resultweather.firstChild);
@@ -63,24 +73,26 @@ function deleteChild() {
 // Lorsque la page est entièrement chargée et que le bouton "Get weather !" est cliqué :
 
 document.addEventListener("DOMContentLoaded", function () {
-	// let userInput = document.getElementById('form-user').value;
 	document.querySelector("button").addEventListener("click", function() {
-		let userInput = document.getElementById('form-user').value;
 		// click.preventDefault()
-		deleteChild()	// TODO : si la div avec la classe "result" existe, la supprimer et en ajouter une nouvelle avec le nouveau contenu. Ca fonctionne, l'élément est enlevé de la page, mais le problème est que si on change la ville et qu'on submit à nouveau, c'est la météo du premier submit qui s'affiche.
+		let userInput = document.getElementById('form-user').value;
+		deleteChild()
 		getCoord(userInput)
 			.then((myCoordResult) => {		
 				getWeather(myCoordResult.myLatitude, myCoordResult.myLongitude)
-                .then(myWeatherResult => {
-					let todayNumber = new Date((myWeatherResult.current.dt + myWeatherResult.timezone_offset) * 1000).getDay()
-					let today = weekday[todayNumber]
-                    resultweather.insertAdjacentHTML(
-                        'beforeend',
-						`<div class="result" id="result"><h2>${today}</h2>
-						<img class=weather-icon src=${getWeatherIcon(myWeatherResult.daily[0].weather[0].id)}></img>
-						</div>` // TODO : changer daily[0] par daily[i] pour afficher plusieurs jours de conditions météo
-					)
-                })
+					.then(myWeatherResult => {
+						// checkNightMode();
+						for (let i = 0; i <= selector.value; i++) {
+							let dayNumber = new Date(myWeatherResult.daily[i].dt * 1000).getDay()
+							let day = weekday[dayNumber]
+							resultweather.insertAdjacentHTML('beforeend', `<div class="result"><h2>${day}</h2><div class="image"><img class=weather-icon src=${getWeatherIcon(myWeatherResult.daily[i].weather[0].id)}></img></div></div>`)
+						}
+
+					})
     	    })
 	})
 })
+
+// TODO :
+// night mode
+// mettre l'info en cache pour limiter le nombre d'appels à l'API
